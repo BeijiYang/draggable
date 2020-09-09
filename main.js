@@ -32,8 +32,10 @@ const ranges = [];
 const container = document.getElementById('container');
 const textNode = container.childNodes[0];
 
-
 for (let i = 0; i < textNode.textContent.length; i++) {
+  if (textNode.textContent.charAt(i) && textNode.textContent.charAt(i).match(/\w/)) {
+    continue;
+  }
   const range = document.createRange();
   range.setStart(textNode, i);
   range.setEnd(textNode, i);
