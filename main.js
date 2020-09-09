@@ -1,23 +1,23 @@
 const draggable = document.getElementById('draggable');
 
-let baseX = 0, baseY = 0;
-let movedX = 0, movedY = 0;
-
 draggable.addEventListener('mousedown', evt => {
   const {
     clientX: startX,
     clientY: startY
   } = evt;
   const drag = ({ clientX, clientY }) => {
-    movedX = clientX - startX;
-    movedY = clientY - startY
-    // draggable.style.transform = `translate(${baseX + movedX}px, ${baseY + movedY}px)`;
+    const movedX = clientX - startX;
+    const movedY = clientY - startY
+    draggable.style.transform = `translate(${movedX}px, ${movedY}px)`;
+    draggable.style.opacity = '70%';
+  }
+  const mouseup = ({ clientX, clientY }) => {
+    draggable.style.transform = `translate(${0}px, ${0}px)`;
+    draggable.style.opacity = '100%';
+
     const range = getNearest(clientX, clientY);
     range.insertNode(draggable); // insert 方法都会把插入的元素从原位置上移除
-  }
-  const mouseup = () => {
-    baseX += movedX;
-    baseY += movedY;
+
     document.removeEventListener('mousemove', drag);
     document.removeEventListener('mouseup', mouseup);
   }
@@ -42,7 +42,6 @@ for (let i = 0; i < textNode.textContent.length; i++) {
   // console.log(range.getBoundingClientRect())
   ranges.push(range);
 }
-// console.log(container.childNodes[0].textContent)
 
 function getNearest(x, y) {
   let min = Infinity;
